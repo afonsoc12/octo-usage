@@ -1,0 +1,41 @@
+[project]
+name = "octo-usage"
+version = "0.0.1"
+description = "Fetch Electricity consumption from Octopus Energy API and persists it to PostgreSQL database"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "click>=8.3.1,<9",
+    "psycopg[binary]>=3.3.2,<4",
+    "requests>=2.32.0,<3",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2,<10",
+    "requests-mock>=1.12.1,<2",
+    "ruff>=0.15.1,<1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+python_files = ["test_*.py"]
+addopts = "-v --strict-markers"
+markers = [
+    "integration: marks tests as integration tests (deselect with '-m \"not integration\"')",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py314"
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort
+    "UP",     # pyupgrade
+    "B",      # flake8-bugbear
+    "C90",    # mccabe
+]

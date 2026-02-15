@@ -1,0 +1,39 @@
+name: CI
+
+concurrency: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  ci:
+    name: 🔍 Linting & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v6
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: ⚡ Setup uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          activate-environment: true
+
+      - name: 📦 Install dependencies
+        run: uv sync --locked --all-groups
+
+      - name: 🎨 Format check (ruff format)
+        run: uv run ruff format --check octo_usage test
+
+      - name: 🔎 Lint & check imports (ruff check)
+        run: uv run ruff check octo_usage test
+
+      - name: ✅ Run unit tests
+        run: uv run pytest -m "not integration"
