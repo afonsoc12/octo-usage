@@ -229,4 +229,3 @@ class TestCliInferFlag:
                     mock_octopus_instance.consumption.assert_called_once()
                     call_kwargs = mock_octopus_instance.consumption.call_args[1]
                     assert call_kwargs["period_from"] is None
-

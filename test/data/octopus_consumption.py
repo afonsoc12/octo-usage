@@ -62,5 +62,3 @@ response_two = {
         },
     ],
 }
-
-

@@ -64,7 +64,9 @@ def main(period_start, period_end, infer, dry_run, limit):  # noqa: C901
                 latest_timestamp = db.get_latest_consumption_timestamp(mpan)
 
                 if latest_timestamp:
-                    logger.info(f"Found latest consumption data at {latest_timestamp}, fetching from that point onwards")
+                    logger.info(
+                        f"Found latest consumption data at {latest_timestamp}, fetching from that point onwards"
+                    )
                     # Parse the ISO timestamp string (format: 2026-02-12T01:00:00Z)
                     period_start = datetime.fromisoformat(latest_timestamp.replace("Z", "+00:00"))
                 else:
