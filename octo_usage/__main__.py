@@ -84,15 +84,15 @@ def main(period_start, period_end, infer, dry_run, limit):  # noqa: C901
             logger.error(f"Error inferring period_start: {e}", exc_info=True)
             raise
 
-    # Format datetimes for API (timezone-aware → UTC, naive → unchanged)
+    # Format datetimes for API (timezone-aware → UTC, naive → UTC as-is with Z)
     if period_start:
         if period_start.tzinfo is not None:
             # Timezone-aware: convert to UTC
             period_start_utc = period_start.astimezone(UTC)
-            period_start_str = period_start_utc.strftime('%Y-%m-%dT%H:%M:%SZ')
+            period_start_str = period_start_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
         else:
-            # Naive: pass through as-is (no timezone conversion)
-            period_start_str = period_start.isoformat()
+            # Naive: assume UTC and add Z suffix
+            period_start_str = period_start.isoformat() + "Z"
     else:
         period_start_str = None
 
@@ -100,10 +100,10 @@ def main(period_start, period_end, infer, dry_run, limit):  # noqa: C901
         if period_end.tzinfo is not None:
             # Timezone-aware: convert to UTC
             period_end_utc = period_end.astimezone(UTC)
-            period_end_str = period_end_utc.strftime('%Y-%m-%dT%H:%M:%SZ')
+            period_end_str = period_end_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
         else:
-            # Naive: pass through as-is (no timezone conversion)
-            period_end_str = period_end.isoformat()
+            # Naive: assume UTC and add Z suffix
+            period_end_str = period_end.isoformat() + "Z"
     else:
         period_end_str = None
 

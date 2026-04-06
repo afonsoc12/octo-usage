@@ -40,7 +40,7 @@ jobs:
           BUILD_NUM=${{ github.run_number }}
           STABLE="${VERSION}"
           BUILD="${VERSION}-b${BUILD_NUM}"
-          
+
           echo "version=$STABLE" >> $GITHUB_OUTPUT
           echo "build=$BUILD" >> $GITHUB_OUTPUT
           echo "Version tag: $STABLE"
@@ -82,37 +82,37 @@ jobs:
         run: |
           cat >> $GITHUB_STEP_SUMMARY << EOF
           # 🐳 Docker Build Summary
-          
+
           ## Build Information
           - **Status**: ✅ Success
           - **Build Number**: ${{ github.run_number }}
           - **Branch**: ${{ github.ref_name }}
           - **Commit SHA**: ${{ github.sha }}
           - **Actor**: ${{ github.actor }}
-          
+
           ## Image Details
           - **Registry**: ghcr.io
           - **Repository**: afonsoc12/octo-usage
           - **Platforms**: linux/amd64, linux/arm64
           - **Image Digest**: `${{ steps.image.outputs.digest }}`
-          
+
           ## Tags
           - **Version**: `ghcr.io/afonsoc12/octo-usage:${{ steps.tags.outputs.version }}`
           - **Build**: `ghcr.io/afonsoc12/octo-usage:${{ steps.tags.outputs.build }}`
           - **Latest**: `ghcr.io/afonsoc12/octo-usage:latest`
-          
+
           ## Pull Commands
           ```bash
           # Pull version
           docker pull ghcr.io/afonsoc12/octo-usage:${{ steps.tags.outputs.version }}
-          
+
           # Pull specific build
           docker pull ghcr.io/afonsoc12/octo-usage:${{ steps.tags.outputs.build }}
-          
+
           # Pull latest
           docker pull ghcr.io/afonsoc12/octo-usage:latest
           ```
-          
+
           ## Timestamps
           - **Built**: ${{ github.event.head_commit.timestamp }}
           - **Job Runtime**: ${{ job.duration }}s
