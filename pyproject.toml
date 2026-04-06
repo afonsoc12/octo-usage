@@ -1,6 +1,6 @@
 [project]
 name = "octo-usage"
-version = "0.0.1"
+version = "0.0.2"
 description = "Fetch Electricity consumption from Octopus Energy API and persists it to PostgreSQL database"
 readme = "README.md"
 requires-python = ">=3.14"

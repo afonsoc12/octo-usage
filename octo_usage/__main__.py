@@ -7,7 +7,7 @@ Execute with:
 """
 
 import os
-from datetime import datetime
+from datetime import UTC, datetime
 
 import click
 
@@ -84,14 +84,26 @@ def main(period_start, period_end, infer, dry_run, limit):  # noqa: C901
             logger.error(f"Error inferring period_start: {e}", exc_info=True)
             raise
 
-    # Convert naive datetimes to UTC-aware for API compatibility
+    # Format datetimes for API (timezone-aware → UTC, naive → unchanged)
     if period_start:
-        period_start_str = period_start.isoformat().replace("+00:00", "") + "Z"
+        if period_start.tzinfo is not None:
+            # Timezone-aware: convert to UTC
+            period_start_utc = period_start.astimezone(UTC)
+            period_start_str = period_start_utc.strftime('%Y-%m-%dT%H:%M:%SZ')
+        else:
+            # Naive: pass through as-is (no timezone conversion)
+            period_start_str = period_start.isoformat()
     else:
         period_start_str = None
 
     if period_end:
-        period_end_str = period_end.isoformat().replace("+00:00", "") + "Z"
+        if period_end.tzinfo is not None:
+            # Timezone-aware: convert to UTC
+            period_end_utc = period_end.astimezone(UTC)
+            period_end_str = period_end_utc.strftime('%Y-%m-%dT%H:%M:%SZ')
+        else:
+            # Naive: pass through as-is (no timezone conversion)
+            period_end_str = period_end.isoformat()
     else:
         period_end_str = None
 
